@@ -327,7 +327,7 @@ class MenuBar extends React.Component {
                                     [styles.clickable]: typeof this.props.onClickLogo !== 'undefined'
                                 })}
                                 draggable={false}
-                                src={scratchLogo}
+                                src="http://cdl-asset.oss-cn-beijing.aliyuncs.com/online/d90595d67e6c6c79644e0e921498508d.png"
                                 onClick={this.props.onClickLogo}
                             />
                         </div>
@@ -570,7 +570,7 @@ class MenuBar extends React.Component {
                         this.props.username ? (
                             // ************ user is logged in ************
                             <React.Fragment>
-                                <a href="/mystuff/">
+                                {/* <a href="/mystuff/">
                                     <div
                                         className={classNames(
                                             styles.menuBarItem,
@@ -583,7 +583,7 @@ class MenuBar extends React.Component {
                                             src={mystuffIcon}
                                         />
                                     </div>
-                                </a>
+                                </a> */}
                                 <AccountNav
                                     className={classNames(
                                         styles.menuBarItem,
@@ -597,12 +597,13 @@ class MenuBar extends React.Component {
                                     onClose={this.props.onRequestCloseAccount}
                                     onLogOut={this.props.onLogOut}
                                 />
+                                {this.props.renderRelease && this.props.renderRelease()}
                             </React.Fragment>
                         ) : (
                             // ********* user not logged in, but a session exists
                             // ********* so they can choose to log in
                             <React.Fragment>
-                                <div
+                                {/* <div
                                     className={classNames(
                                         styles.menuBarItem,
                                         styles.hoverable
@@ -615,28 +616,30 @@ class MenuBar extends React.Component {
                                         description="Link for creating a Scratch account"
                                         id="gui.menuBar.joinScratch"
                                     />
-                                </div>
+                                </div> */}
                                 <div
                                     className={classNames(
                                         styles.menuBarItem,
                                         styles.hoverable
                                     )}
                                     key="login"
-                                    onMouseUp={this.props.onClickLogin}
+                                    onClick={this.props.onClickLogin}
                                 >
                                     <FormattedMessage
                                         defaultMessage="Sign in"
                                         description="Link for signing in to your Scratch account"
                                         id="gui.menuBar.signIn"
                                     />
-                                    <LoginDropdown
+                                    {/* <LoginDropdown
                                         className={classNames(styles.menuBarMenu)}
                                         isOpen={this.props.loginMenuOpen}
                                         isRtl={this.props.isRtl}
                                         renderLogin={this.props.renderLogin}
                                         onClose={this.props.onRequestCloseLogin}
-                                    />
+                                    /> */}
                                 </div>
+                                {this.props.renderLogin && this.props.renderLogin()}
+                                {this.props.renderRegister && this.props.renderRegister()}
                             </React.Fragment>
                         )
                     ) : (
@@ -742,6 +745,8 @@ MenuBar.propTypes = {
     onUpdateProjectTitle: PropTypes.func,
     projectTitle: PropTypes.string,
     renderLogin: PropTypes.func,
+    renderRegister: PropTypes.func,
+    renderRelease: PropTypes.func,
     sessionExists: PropTypes.bool,
     shouldSaveBeforeTransition: PropTypes.func,
     showComingSoon: PropTypes.bool,

@@ -86,6 +86,8 @@ const GUIComponent = props => {
         isShared,
         loading,
         renderLogin,
+        renderRelease,
+        renderRegister,
         onClickAccountNav,
         onCloseAccountNav,
         onLogOut,
@@ -212,6 +214,8 @@ const GUIComponent = props => {
                     enableCommunity={enableCommunity}
                     isShared={isShared}
                     renderLogin={renderLogin}
+                    renderRelease={renderRelease}
+                    renderRegister={renderRegister}
                     showComingSoon={showComingSoon}
                     onClickAccountNav={onClickAccountNav}
                     onClickLogo={onClickLogo}
@@ -399,6 +403,8 @@ GUIComponent.propTypes = {
     onToggleLoginOpen: PropTypes.func,
     onUpdateProjectTitle: PropTypes.func,
     renderLogin: PropTypes.func,
+    renderRelease: PropTypes.func,
+    renderRegister: PropTypes.func,
     showComingSoon: PropTypes.bool,
     soundsTabVisible: PropTypes.bool,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
