@@ -189,13 +189,12 @@ class MenuBar extends React.Component {
         this.props.onRequestCloseFile();
     }
     handleClickSave () {
-        console.log('123', this.props.isWithoutId)
         if (this.props.isWithoutId) {
             this.props.onClickCreate()
         } else {
             this.props.onClickSave();
         }
-        this.props.onRequestCloseFile();
+        // this.props.onRequestCloseFile();
     }
     handleClickSaveAsCopy () {
         this.props.onClickSaveAsCopy();
