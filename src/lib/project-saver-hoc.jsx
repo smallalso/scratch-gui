@@ -243,6 +243,7 @@ const ProjectSaverHOC = function (WrappedComponent) {
                 .then(response => {
                     this.props.onSetProjectUnchanged();
                     const id = response.id.toString();
+                    console.log(id, projectId, this.props.releaseState, this.props.onReleaseChange, 'testing...')
                     if (id && this.props.releaseState === 'RELEASE_START' && this.props.onReleaseChange) {
                         this.props.onReleaseChange()
                     }
@@ -312,6 +313,7 @@ const ProjectSaverHOC = function (WrappedComponent) {
                 isShowingWithoutId,
                 isUpdating,
                 loadingState,
+                releaseState,
                 onAutoUpdateProject,
                 onCreatedProject,
                 onCreateProject,
@@ -413,6 +415,7 @@ const ProjectSaverHOC = function (WrappedComponent) {
             isUpdating: getIsUpdating(loadingState),
             isManualUpdating: getIsManualUpdating(loadingState),
             loadingState: loadingState,
+            releaseState: state.navigation.releaseState,
             locale: state.locales.locale,
             projectChanged: state.scratchGui.projectChanged,
             reduxProjectId: state.scratchGui.projectState.projectId,
