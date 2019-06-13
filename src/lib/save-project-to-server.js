@@ -1,6 +1,7 @@
 import queryString from 'query-string';
 import xhr from 'xhr';
 import storage from '../lib/storage';
+import {account} from './tool'
 
 /**
  * Save a project JSON to the project server.
@@ -19,7 +20,8 @@ export default function (projectId, vmState, params) {
         body: vmState,
         // If we set json:true then the body is double-stringified, so don't
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-User-Token': account.data.user.token
         },
         withCredentials: true
     };
@@ -52,11 +54,24 @@ export default function (projectId, vmState, params) {
             } catch (e) {
                 return reject(e);
             }
-            body.id = projectId;
-            if (creatingProject) {
-                body.id = body['content-name'];
+            if (body.code === 401) {
+                setTimeout(() => {
+                    window.location.href = '/'
+                    account.data = null
+                }, 1000)
+                return
             }
-            resolve(body);
+            
+            if (body.code === 200) {
+                const {data} = body
+                data.id = projectId;
+                if (creatingProject) {
+                    data.id = data['content-name'];
+                }
+                resolve(data);
+            } else {
+                return reject({error: true})
+            }
         });
     });
 }

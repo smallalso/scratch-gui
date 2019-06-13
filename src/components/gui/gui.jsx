@@ -91,6 +91,8 @@ const GUIComponent = props => {
         onClickAccountNav,
         onCloseAccountNav,
         onLogOut,
+        onClickLogin,
+        onClickRelease,
         onOpenRegistration,
         onToggleLoginOpen,
         onUpdateProjectTitle,
@@ -114,6 +116,7 @@ const GUIComponent = props => {
         targetIsStage,
         telemetryModalVisible,
         tipsLibraryVisible,
+        onReleaseChange,
         vm,
         ...componentProps
     } = omit(props, 'dispatch');
@@ -217,6 +220,9 @@ const GUIComponent = props => {
                     renderRelease={renderRelease}
                     renderRegister={renderRegister}
                     showComingSoon={showComingSoon}
+                    onClickLogin={onClickLogin}
+                    onClickRelease={onClickRelease}
+                    onOpenRegistration={onOpenRegistration}
                     onClickAccountNav={onClickAccountNav}
                     onClickLogo={onClickLogo}
                     onCloseAccountNav={onCloseAccountNav}
@@ -411,6 +417,7 @@ GUIComponent.propTypes = {
     targetIsStage: PropTypes.bool,
     telemetryModalVisible: PropTypes.bool,
     tipsLibraryVisible: PropTypes.bool,
+    onReleaseChange: PropTypes.func,
     vm: PropTypes.instanceOf(VM).isRequired
 };
 GUIComponent.defaultProps = {

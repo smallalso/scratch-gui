@@ -24,11 +24,13 @@ import {MenuItem, MenuSection} from '../menu/menu.jsx';
 import ProjectTitleInput from './project-title-input.jsx';
 import AuthorInfo from './author-info.jsx';
 import AccountNav from '../../containers/account-nav.jsx';
-import LoginDropdown from './login-dropdown.jsx';
+// import LoginDropdown from './login-dropdown.jsx';
 import SB3Downloader from '../../containers/sb3-downloader.jsx';
 import DeletionRestorer from '../../containers/deletion-restorer.jsx';
 import TurboMode from '../../containers/turbo-mode.jsx';
 import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
+
+import ReleaseButton from './release-button.jsx'
 
 import {openTipsLibrary} from '../../reducers/modals';
 import {setPlayer} from '../../reducers/mode';
@@ -36,9 +38,11 @@ import {
     autoUpdateProject,
     getIsUpdating,
     getIsShowingProject,
+    getIsShowingWithoutId,
     manualUpdateProject,
     requestNewProject,
     remixProject,
+    createProject,
     saveProjectAsCopy
 } from '../../reducers/project-state';
 import {
@@ -54,7 +58,7 @@ import {
     openLanguageMenu,
     closeLanguageMenu,
     languageMenuOpen,
-    openLoginMenu,
+    // openLoginMenu,
     closeLoginMenu,
     loginMenuOpen
 } from '../../reducers/menus';
@@ -70,7 +74,7 @@ import remixIcon from './icon--remix.svg';
 import dropdownCaret from './dropdown-caret.svg';
 import languageIcon from '../language-selector/language-icon.svg';
 
-import scratchLogo from './scratch-logo.svg';
+// import scratchLogo from './scratch-logo.svg';
 
 import sharedMessages from '../../lib/shared-messages';
 
@@ -148,6 +152,7 @@ class MenuBar extends React.Component {
             'handleClickNew',
             'handleClickRemix',
             'handleClickSave',
+            'handleClickRelease',
             'handleClickSaveAsCopy',
             'handleClickSeeCommunity',
             'handleClickShare',
@@ -184,7 +189,12 @@ class MenuBar extends React.Component {
         this.props.onRequestCloseFile();
     }
     handleClickSave () {
-        this.props.onClickSave();
+        console.log('123', this.props.isWithoutId)
+        if (this.props.isWithoutId) {
+            this.props.onClickCreate()
+        } else {
+            this.props.onClickSave();
+        }
         this.props.onRequestCloseFile();
     }
     handleClickSaveAsCopy () {
@@ -211,6 +221,14 @@ class MenuBar extends React.Component {
                 waitForUpdate(false); // immediately transition to project page
             }
         }
+    }
+    handleClickRelease () {
+        if (this.props.isWithoutId) {
+            this.props.onClickCreate()
+        } else {
+            this.props.onClickSave();
+        }
+        this.props.onClickRelease()
     }
     handleRestoreOption (restoreFun) {
         return () => {
@@ -532,6 +550,12 @@ class MenuBar extends React.Component {
                         )}
                         {this.props.canRemix ? remixButton : []}
                     </div>
+                    <div className={classNames(styles.menuBarItem)}>
+                       { this.props.sessionExists &&
+                        this.props.username &&
+                        <ReleaseButton onClick={this.handleClickRelease}
+                                       isReleasing={this.props.isReleasing}/>}
+                    </div>
                     <div className={classNames(styles.menuBarItem, styles.communityButtonWrapper)}>
                         {this.props.enableCommunity ? (
                             (this.props.isShowingProject || this.props.isUpdating) && (
@@ -563,7 +587,9 @@ class MenuBar extends React.Component {
                 <div className={styles.accountInfoGroup}>
                     <div className={styles.menuBarItem}>
                         {this.props.canSave && (
-                            <SaveStatus />
+                            <SaveStatus 
+                                onClickSave={this.handleClickSave}
+                            />
                         )}
                     </div>
                     {this.props.sessionExists ? (
@@ -766,10 +792,12 @@ const mapStateToProps = (state, ownProps) => {
         accountMenuOpen: accountMenuOpen(state),
         fileMenuOpen: fileMenuOpen(state),
         editMenuOpen: editMenuOpen(state),
+        isWithoutId: getIsShowingWithoutId(loadingState),
         isRtl: state.locales.isRtl,
         isUpdating: getIsUpdating(loadingState),
         isShowingProject: getIsShowingProject(loadingState),
         languageMenuOpen: languageMenuOpen(state),
+        isReleasing: state.navigation.releaseState === 'RELEASEING',
         locale: state.locales.locale,
         loginMenuOpen: loginMenuOpen(state),
         projectTitle: state.scratchGui.projectTitle,
@@ -792,11 +820,12 @@ const mapDispatchToProps = dispatch => ({
     onRequestCloseEdit: () => dispatch(closeEditMenu()),
     onClickLanguage: () => dispatch(openLanguageMenu()),
     onRequestCloseLanguage: () => dispatch(closeLanguageMenu()),
-    onClickLogin: () => dispatch(openLoginMenu()),
+    // onClickLogin: () => dispatch(openLoginMenu()),
     onRequestCloseLogin: () => dispatch(closeLoginMenu()),
     onClickNew: needSave => dispatch(requestNewProject(needSave)),
     onClickRemix: () => dispatch(remixProject()),
     onClickSave: () => dispatch(manualUpdateProject()),
+    onClickCreate: () => dispatch(createProject()),
     onClickSaveAsCopy: () => dispatch(saveProjectAsCopy()),
     onSeeCommunity: () => dispatch(setPlayer(true))
 });

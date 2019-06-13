@@ -51,11 +51,11 @@ const mapStateToProps = state => ({
     projectChanged: state.scratchGui.projectChanged
 });
 
-const mapDispatchToProps = dispatch => ({
-    onClickSave: () => dispatch(manualUpdateProject())
-});
+// const mapDispatchToProps = dispatch => ({
+//     onClickSave: () => dispatch(manualUpdateProject())
+// });
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
+    // mapDispatchToProps
 )(SaveStatus);

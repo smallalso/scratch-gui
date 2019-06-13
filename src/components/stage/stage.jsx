@@ -19,6 +19,7 @@ const StageComponent = props => {
         canvas,
         dragRef,
         isColorPicking,
+        isPlayerOnly,
         isFullScreen,
         isStarted,
         colorInfo,
@@ -32,7 +33,7 @@ const StageComponent = props => {
         ...boxProps
     } = props;
 
-    const stageDimensions = getStageDimensions(stageSize, isFullScreen);
+    const stageDimensions = getStageDimensions(stageSize, isFullScreen, isPlayerOnly);
 
     return (
         <div>

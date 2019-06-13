@@ -1,0 +1,11 @@
+@import "../../css/colors.css";
+
+.release-button {
+    background: $data-primary;
+    padding: 10px 22px;
+}
+
+.release-button-is-released {
+    background: $ui-black-transparent;
+    cursor: default;
+}

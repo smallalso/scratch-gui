@@ -53,7 +53,7 @@ StageHeader.propTypes = {
 
 const mapStateToProps = state => ({
     stageSizeMode: state.scratchGui.stageSize.stageSize,
-    showBranding: state.scratchGui.mode.showBranding,
+    showBranding: state.scratchGui.mode.showBranding || false,
     isFullScreen: state.scratchGui.mode.isFullScreen,
     isPlayerOnly: state.scratchGui.mode.isPlayerOnly
 });

@@ -243,6 +243,9 @@ const ProjectSaverHOC = function (WrappedComponent) {
                 .then(response => {
                     this.props.onSetProjectUnchanged();
                     const id = response.id.toString();
+                    if (id && this.props.releaseState === 'RELEASE_START' && this.props.onReleaseChange) {
+                        this.props.onReleaseChange()
+                    }
                     if (id && this.props.onUpdateProjectThumbnail) {
                         this.storeProjectThumbnail(id);
                     }
@@ -329,6 +332,7 @@ const ProjectSaverHOC = function (WrappedComponent) {
                 onUpdateProjectThumbnail,
                 reduxProjectId,
                 reduxProjectTitle,
+                onReleaseChange,
                 setAutoSaveTimeoutId: setAutoSaveTimeoutIdProp,
                 /* eslint-enable no-unused-vars */
                 ...componentProps
@@ -378,6 +382,7 @@ const ProjectSaverHOC = function (WrappedComponent) {
         onShowSavingAlert: PropTypes.func,
         onUpdateProjectData: PropTypes.func.isRequired,
         onUpdateProjectThumbnail: PropTypes.func,
+        onReleaseChange: PropTypes.func,
         onUpdatedProject: PropTypes.func,
         projectChanged: PropTypes.bool,
         reduxProjectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
