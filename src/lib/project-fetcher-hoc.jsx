@@ -72,6 +72,7 @@ const ProjectFetcherHOC = function (WrappedComponent) {
                 .load(storage.AssetType.Project, projectId, storage.DataFormat.JSON)
                 .then(projectAsset => {
                     if (projectAsset) {
+                        // projectAsset.data = JSON.parse(new TextDecoder("utf-8").decode(projectAsset.data))
                         this.props.onFetchedProjectData(projectAsset.data, loadingState);
                     } else {
                         // Treat failure to load as an error
