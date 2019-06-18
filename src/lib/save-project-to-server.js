@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 import xhr from 'xhr';
 import storage from '../lib/storage';
-import {account} from './tool'
+// import {account} from './tool'
 
 /**
  * Save a project JSON to the project server.
@@ -20,8 +20,7 @@ export default function (projectId, vmState, params) {
         body: vmState,
         // If we set json:true then the body is double-stringified, so don't
         headers: {
-            'Content-Type': 'application/json',
-            'X-User-Token': account.data.user.token
+            'Content-Type': 'application/json'
         },
         withCredentials: true
     };
